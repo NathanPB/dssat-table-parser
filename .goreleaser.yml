@@ -1,0 +1,42 @@
+before:
+  hooks:
+    - go generate ./...
+
+project_name: dssat-table-parser
+
+release:
+  github:
+    owner: NathanPB
+    name: dssat-table-parser
+
+builds:
+  - id: dssat-table-parser
+    ldflags:
+      - -s -w
+    binary: dssat-table-parser
+    main: ./main.go
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format: "binary"
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
